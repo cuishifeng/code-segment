@@ -1,0 +1,111 @@
+1 登陆mysql
+C:>mysql -uroot -p;
+C:>mysql -uroot -ppassword;
+C:>mysql mydb -uroot -p;
+
+2 使用SHOW语句找出在服务器上当前存在什么数据库：
+mysql> show databases;
+
+3 创建一个数据库mydb
+mysql> create database mydb default charset utf8 collate utf8_general_ci;
+
+4 选择你所创建的数据库
+mysql> use mydb; (按回车键出现Database changed 时说明操作成功！)
+
+5 查看现在的数据库中存在什么表
+mysql> show tables;
+
+6 创建一个数据库表
+mysql> create table mytable(name varchar(20),sex int);
+
+7 显示表的结构：
+mysql> describe mytable;
+mysql> desc mytable;
+
+8 往表中加入记录
+mysql> insert into mytable values (‘zhangsan’,’1′);
+
+9 删除表
+mysql>drop table mytable;
+
+10 清空表
+mysql>delete from mytable;
+
+11 更新表中数据
+mysql>update mytable set sex=’female’ where name=’zhangsan’;
+
+12 修改表结构
+mysql> alter table 表名 add index 索引名 (字段名1[，字段名2 …]);
+mysql> alter table 表名 add primary key (字段名);
+mysql> alter table 表名 add unique 索引名 (字段名);
+mysql> alter table 表名 drop index 索引名;
+mysql> alter table 表名 add 字段名 字段类型;
+mysql> alter table 表名 change 老字段名 新字段名 字段类型 ;
+mysql> alter table 表名 drop 字段名 ;
+
+13 创建新用户
+mysql> grant all on mydb.* to NewUserName@HostName identified by “password” ;
+mysql> grant usage on *.* to NewUserName@HostName identified by “password”;
+mysql> grant select,insert,update on mydb.* to NewUserName@HostName identified by “password”;
+mysql> grant update,delete on mydb.TestTable to NewUserName@HostName identified by “password”;
+常用权限如下：
+全局管理权限：
+FILE: 在MySQL服务器上读写文件。
+PROCESS: 显示或杀死属于其它用户的服务线程。
+RELOAD: 重载访问控制表，刷新日志等。
+SHUTDOWN: 关闭MySQL服务。
+数据库/数据表/数据列权限：
+ALTER: 修改已存在的数据表(例如增加/删除列)和索引。
+CREATE: 建立新的数据库或数据表。
+DELETE: 删除表的记录。
+DROP: 删除数据表或数据库。
+INDEX: 建立或删除索引。
+INSERT: 增加表的记录。
+SELECT: 显示/搜索表的记录。
+UPDATE: 修改表中已存在的记录。
+特别的权限：
+ALL: 允许做任何事(和root一样)。
+USAGE: 只允许登录–其它什么也不允许做。
+
+14 为用户添加密码
+c:> mysqladmin -u root -password 123456 (注意结尾如有分号，分号也是密码一部分)
+
+15 为用户更改密码
+c:> mysqladmin -u root -p123456 password 123 (注意结尾如有分号，分号也是密码一部分)
+
+16 mysql数据导出
+c:> mysqldump -uroot -p123456 mydb> mysql.sql; //导出整个库
+c:> mysqldump -uroot -p123456 mydb mytable> mysql.sql; //导出整个表
+c:> mysqldump -uroot -p123456 -d mydb mytable> mysql.sql; //导出整个表,不包括数据
+mysqldump常用参数：
+-F, –flush-logs
+在开始导出前，洗掉在MySQL服务器中的日志文件。
+-f, –force,
+即使我们在一个表导出期间得到一个SQL错误，继续。
+-h, –host=..
+从命名的主机上的MySQL服务器导出数据。缺省主机是localhost。
+-t, –no-create-info
+只导出数据
+-d, –no-data
+只导出表结构
+-w, –where=’where-condition’
+只导出被选择了的记录；注意引号是强制的！
+
+17 用文本方式将数据装入数据库表中（例如D:/mysql.txt）
+mysql> load data local infile “D:/mysql.txt” into table mytable;
+
+18 导入.sql文件命令 
+mysql> use mydb;
+mysql> source d:/mysql.sql;
+
+19 其他常用命令
+mysql> select version(); //显示mysql版本
+mysql> select now(); //显示当前时间
+mysql> select year(current_date); //当前年
+mysql> select month(current_date); //当前月
+mysql> select dayofmonth(current_date); //当前日期
+mysql> select from_unixtime(1372780800000/1000); //毫秒数到 yyyy-MM-dd hh:mm:ss
+mysql> select from_unixtime(1372780800000/1000, ‘%Y-%m-%d %H:%i:%S’)//毫秒数到格式化时间
+mysql> select unix_timestamp(’2013-07-03 00:00:00′) * 1000; //获取毫秒数
+mysql> show create table 表名; //查看该表建表语句
+mysql> show triggers from mydb; //查看mydb数据库所有触发器
