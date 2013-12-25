@@ -1,0 +1,26 @@
+//根据参数名获取参数
+function getUrlParam(name)
+{
+	var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); 
+	var r = window.location.search.substr(1).match(reg);  
+	if (r!=null) 
+		return unescape(r[2]); 
+	return null; 
+} 
+
+
+//获取所有参数
+function getUrlVars() {
+	var vars = {};
+	window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+		vars[key] = value;
+	});
+	return vars;
+}
+
+function getUrlVar(key)
+{
+	return getUrlVars()[key];
+}
+
+

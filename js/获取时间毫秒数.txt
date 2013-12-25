@@ -1,0 +1,7 @@
+function parseDate(str) {
+	var strArray = str.split(" ");
+	var strDate = strArray[0].split("-");
+	var strTime = strArray[1].split(":");
+	return new Date(strDate[0], (strDate[1] - parseInt(1)), strDate[2],
+			strTime[0], strTime[1], strTime[2]).getTime();
+}
